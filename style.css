@@ -5,3 +5,11 @@
 #defaultCanvas0 {
   border: black 1px solid;
 }
+
+.borderBox {
+  border: black 1px solid;
+}
+
+.flex {
+  display: flex;
+}

@@ -90,7 +90,8 @@ function setup() {
   .then(weights => {
     modelWeights = weights;
     modelLoaded();
-    createCanvas(SIZE, SIZE);
+    const inputCanvas = createCanvas(SIZE, SIZE);
+    inputCanvas.parent('canvasContainer');
     image(inputImg, 0, 0)
   })
   stroke(0);
@@ -110,9 +111,9 @@ function transfer() {
   const normalized_input = tf.div(float_input, tf.scalar(255.))
   let output_rgb = mlmodel(normalized_input, modelWeights)
   let outputImg = array3DToImage(output_rgb);
-  createImg(outputImg.src).parent('output');
+  createImg(outputImg.src).class('borderBox').parent('output');
 }
 
 function modelLoaded() {
-  select('#status').html('Model Loaded');
+  select('#status').html('Model Loaded!');
 }
