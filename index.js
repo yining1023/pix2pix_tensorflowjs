@@ -112,8 +112,6 @@ function clearCanvas() {
 }
 
 async function transfer() {
-  outputContainer.html('Transfering... please wait...');
-
   let canvasElement = document.getElementById('defaultCanvas0')
   let input = tf.fromPixels(canvasElement)
   inputData = input.dataSync()
