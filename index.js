@@ -99,6 +99,7 @@ function setup() {
   outputContainer = select('#output');
   transferBtn = select('#transferBtn');
   stroke(0);
+  pixelDensity(1);
 }
 
 function draw() {
