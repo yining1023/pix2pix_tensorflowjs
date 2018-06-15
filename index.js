@@ -1,4 +1,5 @@
 const SIZE = 256;
+let modelWeights, inputImg;
 
 function mlmodel(input, weights) {
   function preprocess(input) {
@@ -80,16 +81,38 @@ function mlmodel(input, weights) {
   return deprocessed_output
 }
 
+function preload() {
+  inputImg = loadImage('images/input.png');
+}
+
 function setup() {
   fetch_weight('/models/edges2pikachu_AtoB.pict')
   .then(weights => {
-    let imgElement = document.getElementById('input')
-    let input = tf.fromPixels(imgElement)
-    inputData = input.dataSync()
-    const float_input = tf.tensor3d(inputData, input.shape)
-    const normalized_input = tf.div(float_input, tf.scalar(255.))
-    let output_rgb = mlmodel(normalized_input, weights)
-    let outputImg = array3DToImage(output_rgb);
-    createImg(outputImg.src).parent('output');
+    modelWeights = weights;
+    modelLoaded();
+    createCanvas(SIZE, SIZE);
+    image(inputImg, 0, 0)
   })
+  stroke(0);
+}
+
+function draw() {
+  if (mouseIsPressed) {
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}
+
+function transfer() {
+  let canvasElement = document.getElementById('defaultCanvas0')
+  let input = tf.fromPixels(canvasElement)
+  inputData = input.dataSync()
+  const float_input = tf.tensor3d(inputData, input.shape)
+  const normalized_input = tf.div(float_input, tf.scalar(255.))
+  let output_rgb = mlmodel(normalized_input, modelWeights)
+  let outputImg = array3DToImage(output_rgb);
+  createImg(outputImg.src).parent('output');
+}
+
+function modelLoaded() {
+  select('#status').html('Model Loaded');
 }
