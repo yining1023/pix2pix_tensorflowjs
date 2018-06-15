@@ -1,15 +1,11 @@
-#inputImage {
-  display: none;
-}
-
-#defaultCanvas0 {
-  border: black 1px solid;
-}
-
-.borderBox {
+.border-box {
   border: black 1px solid;
 }
 
 .flex {
   display: flex;
+}
+
+.flex-space-between {
+  justify-content: space-between;
 }
