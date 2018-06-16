@@ -88,7 +88,7 @@ function preload() {
 }
 
 function setup() {
-  fetch_weight('/models/edges2pikachu_AtoB.pict')
+  fetch_weight('/pix2pix_tensorflowjs/models/edges2pikachu_AtoB.pict')
   .then(weights => {
     modelWeights = weights;
     modelLoaded();
