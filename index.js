@@ -7,7 +7,7 @@ const edges2pikachu = pix2pix('./models/edges2pikachu_AtoB.pict', modelLoaded);
 function setup() {
   // Create canvas
   inputCanvas = createCanvas(SIZE, SIZE);
-  inputCanvas.class('border-box').parent('canvasContainer');
+  inputCanvas.class('border-box pencil').parent('canvasContainer');
 
   // Selcect output div container
   outputContainer = select('#output');
@@ -50,9 +50,8 @@ function transfer() {
     outputContainer.html('');
     // Create an image based result
     createImg(result.src).class('border-box').parent('output');
+    statusMsg.html('Done!');
   });
-
-  statusMsg.html('Done!');
 }
 
 // A function to be called when the models have loaded
@@ -72,4 +71,18 @@ function getRandomOutput() {
   outputImgs[sampleIndex].show().parent('output');;
   sampleIndex += 1;
   if (sampleIndex > 6) sampleIndex = 0;
+}
+
+function usePencil() {
+  stroke(0);
+  strokeWeight(1);
+  inputCanvas.removeClass('eraser');
+  inputCanvas.addClass('pencil');
+}
+
+function useEraser() {
+  stroke(255);
+  strokeWeight(15);
+  inputCanvas.removeClass('pencil');
+  inputCanvas.addClass('eraser');
 }
