@@ -82,7 +82,7 @@ function usePencil() {
 
 function useEraser() {
   stroke(255);
-  strokeWeight(10);
+  strokeWeight(15);
   inputCanvas.removeClass('pencil');
   inputCanvas.addClass('eraser');
 }

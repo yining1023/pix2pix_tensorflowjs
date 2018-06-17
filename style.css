@@ -15,9 +15,9 @@
 }
 
 .pencil {
-  cursor: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/9632/happy.png"), auto;
+  cursor: url("images/pencil.png") 0 30, auto;
 }
 
 .eraser {
-  cursor: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/9632/sad.png"), auto;
+  cursor: url("images/eraser.png") 15 15, auto;
 }
