@@ -13,6 +13,10 @@ body {
   display: flex;
 }
 
+.line-height {
+  line-height: 2.5;
+}
+
 .flex-space-between {
   justify-content: space-between;
 }
@@ -44,9 +48,28 @@ button:hover {
   background-color: #FC9A24;
 }
 
+#textContainer {
+  margin: 20px;
+}
+
+#transferContainer {
+  margin-top: 80px;
+}
+
+#btnContainer {
+  margin: 0 20px;
+}
+
+#toolContainer {
+  width: 256px;
+  margin: 0 20px;
+}
+
 .pokeball {
   animation: pokeball-spin infinite 5s linear;
   height: 60px;
+  margin-left: 20px;
+  margin-bottom: 10px;
 }
 
 @keyframes pokeball-spin {
