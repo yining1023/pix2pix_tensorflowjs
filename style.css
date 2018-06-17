@@ -9,3 +9,15 @@
 .flex-space-between {
   justify-content: space-between;
 }
+
+#toolContainer {
+  width: 258px;
+}
+
+.pencil {
+  cursor: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/9632/happy.png"), auto;
+}
+
+.eraser {
+  cursor: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/9632/sad.png"), auto;
+}

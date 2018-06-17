@@ -14,11 +14,15 @@
     <p>3. A colored Pikachu image will appear in ~5s.</p>
     <p>4. Click 'Clear' button to clear the canvas and draw again.</p>
     <p id="status">Loading Model... Please wait...</p>
+    <div id="toolContainer" class="flex flex-space-between">
+      <button onClick="usePencil()">Pencil</button>
+      <button onClick="useEraser()">Eraser</button>
+    </div>
     <div class="flex">
       <div>
         <div id="canvasContainer"></div>
         <div id="btnContainer" class="flex flex-space-between">
-          <button onClick="clearCanvas()">Clear</button><br>
+          <button onClick="clearCanvas()">Clear</button>
           <button onClick="getRandomOutput()">Random</button>
           <button id="transferBtn" class="btn" onClick="transfer()">Transfer</button>
         </div>
