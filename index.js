@@ -2,7 +2,7 @@ const SIZE = 256, sampleNum = 7;
 let inputCanvas, outputContainer, statusMsg, sampleIndex = 0;
 const inputImgs = [], outputImgs = [];
 
-const edges2pikachu = pix2pix('/models/edges2pikachu_AtoB.pict', modelLoaded);
+const edges2pikachu = pix2pix('./models/edges2pikachu_AtoB.pict', modelLoaded);
 
 function setup() {
   // Create canvas
@@ -14,14 +14,14 @@ function setup() {
   statusMsg = select('#status');
 
   // Display initial input image
-  loadImage('/images/input.png', inputImg => image(inputImg, 0, 0));
+  loadImage('./images/input.png', inputImg => image(inputImg, 0, 0));
 
   // Load other sample input/output images
   for (let i = 1; i <= sampleNum; i += 1) {
-    loadImage(`images/input${i}.png`, inImg => {
+    loadImage(`./images/input${i}.png`, inImg => {
       inputImgs.push(inImg);
     });
-    let outImg = createImg(`/images/output${i}.png`);
+    let outImg = createImg(`./images/output${i}.png`);
     outImg.class('border-box').hide();
     outputImgs.push(outImg);
   }
