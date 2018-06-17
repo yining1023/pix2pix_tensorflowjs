@@ -1,131 +1,60 @@
 const SIZE = 256;
-let modelWeights, inputImg, inputCanvas, outputContainer, transferBtn;
+let inputImg, inputCanvas, outputContainer, statusMsg;
 
-function mlmodel(input, weights) {
-  function preprocess(input) {
-    return tf.sub(tf.mul(input, tf.scalar(2)), tf.scalar(1))
-  }
-
-  function deprocess(input) {
-    return tf.div(tf.add(input, tf.scalar(1)), tf.scalar(2))
-  }
-
-  function batchnorm(input, scale, offset) {
-    let moments = tf.moments(input, [0, 1])
-    const varianceEpsilon = 1e-5
-    return tf.batchNormalization(input, moments.mean, moments.variance, varianceEpsilon, scale, offset)
-  }
-
-  function conv2d(input, filter, bias) {
-    return tf.conv2d(input, filter, [2, 2], "same")
-  }
-
-  function deconv2d(input, filter, bias) {
-    let convolved = tf.conv2dTranspose(input, filter, [input.shape[0]*2, input.shape[1]*2, filter.shape[2]], [2, 2], "same")
-    let biased = tf.add(convolved, bias)
-    return biased
-  }
-
-  return new Promise(resolve => {
-    let preprocessed_input = preprocess(input)
-
-    let layers = []
-
-    let filter = weights["generator/encoder_1/conv2d/kernel"]
-    let bias = weights["generator/encoder_1/conv2d/bias"]
-    let convolved = conv2d(preprocessed_input, filter, bias)
-    layers.push(convolved)
-
-    for (let i = 2; i <= 8; i++) {
-      let scope = "generator/encoder_" + i.toString()
-      let filter = weights[scope + "/conv2d/kernel"]
-      let bias = weights[scope + "/conv2d/bias"]
-      let layer_input = layers[layers.length - 1]
-      let rectified = tf.leakyRelu(layer_input, 0.2)
-      let convolved = conv2d(rectified, filter, bias)
-      let scale = weights[scope + "/batch_normalization/gamma"]
-      let offset = weights[scope + "/batch_normalization/beta"]
-      let normalized = batchnorm(convolved, scale, offset)
-      layers.push(normalized)
-    }
-
-    for (let i = 8; i >= 2; i--) {
-      let layer_input
-      if (i == 8) {
-        layer_input = layers[layers.length - 1]
-      } else {
-        let skip_layer = i - 1
-        layer_input = tf.concat([layers[layers.length - 1], layers[skip_layer]], 2)
-      }
-      let rectified = tf.relu(layer_input)
-      let scope = "generator/decoder_" + i.toString()
-      let filter = weights[scope + "/conv2d_transpose/kernel"]
-      let bias = weights[scope + "/conv2d_transpose/bias"]
-      let convolved = deconv2d(rectified, filter, bias)
-      let scale = weights[scope + "/batch_normalization/gamma"]
-      let offset = weights[scope + "/batch_normalization/beta"]
-      let normalized = batchnorm(convolved, scale, offset)
-      layers.push(normalized)
-    }
-
-    let layer_input = tf.concat([layers[layers.length - 1], layers[0]], 2)
-    rectified = tf.relu(layer_input)
-    filter = weights["generator/decoder_1/conv2d_transpose/kernel"]
-    bias = weights["generator/decoder_1/conv2d_transpose/bias"]
-    convolved = deconv2d(rectified, filter, bias)
-    rectified = tf.tanh(convolved)
-    layers.push(rectified)
-
-    let output = layers[layers.length - 1]
-    let deprocessed_output = deprocess(output)
-
-    return resolve(deprocessed_output)
-  });
-}
-
-function preload() {
-  inputImg = loadImage('images/input.png');
-}
+const edges2pikachu = pix2pix('/models/edges2pikachu_AtoB.pict', modelLoaded);
 
 function setup() {
-  fetch_weight('/models/edges2pikachu_AtoB.pict')
-  .then(weights => {
-    modelWeights = weights;
-    modelLoaded();
-    inputCanvas = createCanvas(SIZE, SIZE);
-    inputCanvas.class('border-box').parent('canvasContainer');
-    image(inputImg, 0, 0)
-  })
+  // Create canvas
+  inputCanvas = createCanvas(SIZE, SIZE);
+  inputCanvas.class('border-box').parent('canvasContainer');
+
+  // Selcect output div container
   outputContainer = select('#output');
-  transferBtn = select('#transferBtn');
+  statusMsg = select('#status');
+
+  // Display initial input image
+  inputImg = loadImage('images/input.png', drawImage);
+
+  // Set stroke to black
   stroke(0);
   pixelDensity(1);
 }
 
+// Draw on the canvas when mouse is pressed
 function draw() {
   if (mouseIsPressed) {
     line(mouseX, mouseY, pmouseX, pmouseY);
   }
 }
 
+// A function to be called when the models have loaded
+function modelLoaded() {
+  if (!statusMsg) statusMsg = select('#status');
+  statusMsg.html('Model Loaded!');
+}
+
+function drawImage() {
+  image(inputImg, 0, 0);
+}
+
+// Clear the canvas
 function clearCanvas() {
   background(255);
 }
 
-async function transfer() {
-  let canvasElement = document.getElementById('defaultCanvas0')
-  let input = tf.fromPixels(canvasElement)
-  inputData = input.dataSync()
-  const float_input = tf.tensor3d(inputData, input.shape)
-  const normalized_input = tf.div(float_input, tf.scalar(255.))
+function transfer() {
+  // Update status message
+  statusMsg.html('Applying Style Transfer...!');
 
-  let output_rgb = await mlmodel(normalized_input, modelWeights)
-  let outputImg = array3DToImage(output_rgb);
+  // Select canvas DOM element
+  let canvasElement = document.getElementById('defaultCanvas0');
+  // Apply pix2pix transformation
+  edges2pikachu.transfer(canvasElement, function(result) {
+    // Clear output container
+    outputContainer.html('');
+    // Create an image based result
+    createImg(result.src).class('border-box').parent('output');
+  });
 
-  outputContainer.html('');
-  createImg(outputImg.src).class('border-box').parent('output');
-}
-
-function modelLoaded() {
-  select('#status').html('Model Loaded!');
+  statusMsg.html('Done!');
 }
