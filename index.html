@@ -4,7 +4,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/addons/p5.dom.min.js"></script>
-    <script src="./utils.js"> </script>
+    <script src="./utils.js"></script>
+    <script src="./pix2pix.js"></script>
   </head>
   <body>
     <h1>Pix2Pix Edges2Pikachu</h1>
@@ -18,6 +19,7 @@
         <div id="canvasContainer"></div>
         <div id="btnContainer" class="flex flex-space-between">
           <button onClick="clearCanvas()">Clear</button><br>
+          <button onClick="getRandomOutput()">Random</button>
           <button id="transferBtn" class="btn" onClick="transfer()">Transfer</button>
         </div>
       </div>
