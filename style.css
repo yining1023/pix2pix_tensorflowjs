@@ -1,5 +1,12 @@
+body {
+  font-family: monospace;
+  background: #eee;
+}
+
 .border-box {
-  border: black 1px solid;
+  background: white;
+  border-radius: 7px;
+  margin: 20px;
 }
 
 .flex {
@@ -20,4 +27,41 @@
 
 .eraser {
   cursor: url("images/eraser.png") 15 15, auto;
+}
+
+button {
+  cursor: pointer;
+  height: 40px;
+  background: #FFD524;
+  border-radius: 20px;
+  border: none;
+  color: white;
+  font-family: monospace;
+  font-size: 13px;
+}
+
+button:hover { 
+  background-color: #FC9A24;
+}
+
+.pokeball {
+  animation: pokeball-spin infinite 5s linear;
+  height: 60px;
+}
+
+@keyframes pokeball-spin {
+  0%   {
+    transform:rotate(0deg);
+  }
+  25%{
+    transform:rotate(-75deg);
+  }
+
+  75%{
+    transform:rotate(75deg);
+  }
+
+  100% {
+    transform:rotate(0deg);
+  }
 }
