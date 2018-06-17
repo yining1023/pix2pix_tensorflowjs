@@ -1,5 +1,6 @@
-const SIZE = 256;
-let inputImg, inputCanvas, outputContainer, statusMsg;
+const SIZE = 256, sampleNum = 7;
+let inputCanvas, outputContainer, statusMsg, sampleIndex = 0;
+const inputImgs = [], outputImgs = [];
 
 const edges2pikachu = pix2pix('/models/edges2pikachu_AtoB.pict', modelLoaded);
 
@@ -13,7 +14,17 @@ function setup() {
   statusMsg = select('#status');
 
   // Display initial input image
-  inputImg = loadImage('images/input.png', drawImage);
+  loadImage('/images/input.png', inputImg => image(inputImg, 0, 0));
+
+  // Load other sample input/output images
+  for (let i = 1; i <= sampleNum; i += 1) {
+    loadImage(`images/input${i}.png`, inImg => {
+      inputImgs.push(inImg);
+    });
+    let outImg = createImg(`/images/output${i}.png`);
+    outImg.class('border-box').hide();
+    outputImgs.push(outImg);
+  }
 
   // Set stroke to black
   stroke(0);
@@ -27,21 +38,6 @@ function draw() {
   }
 }
 
-// A function to be called when the models have loaded
-function modelLoaded() {
-  if (!statusMsg) statusMsg = select('#status');
-  statusMsg.html('Model Loaded!');
-}
-
-function drawImage() {
-  image(inputImg, 0, 0);
-}
-
-// Clear the canvas
-function clearCanvas() {
-  background(255);
-}
-
 function transfer() {
   // Update status message
   statusMsg.html('Applying Style Transfer...!');
@@ -49,7 +45,7 @@ function transfer() {
   // Select canvas DOM element
   let canvasElement = document.getElementById('defaultCanvas0');
   // Apply pix2pix transformation
-  edges2pikachu.transfer(canvasElement, function(result) {
+  edges2pikachu.transfer(canvasElement, result => {
     // Clear output container
     outputContainer.html('');
     // Create an image based result
@@ -57,4 +53,23 @@ function transfer() {
   });
 
   statusMsg.html('Done!');
+}
+
+// A function to be called when the models have loaded
+function modelLoaded() {
+  if (!statusMsg) statusMsg = select('#status');
+  statusMsg.html('Model Loaded!');
+}
+
+// Clear the canvas
+function clearCanvas() {
+  background(255);
+}
+
+function getRandomOutput() {
+  image(inputImgs[sampleIndex], 0, 0);
+  outputContainer.html('');
+  outputImgs[sampleIndex].show().parent('output');;
+  sampleIndex += 1;
+  if (sampleIndex > 6) sampleIndex = 0;
 }
