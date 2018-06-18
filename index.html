@@ -14,7 +14,6 @@
       <p>2. Click the 'Transfer' button.</p>
       <p>3. A colored Pikachu image will appear on the right side in ~5s.</p>
       <p>4. Click the 'Clear' button to clear the canvas and draw again.</p>
-      <p id="status">Loading Model... Please wait...</p>
     </div>
     <div id="toolContainer" class="flex flex-space-between">
       <button class="flex line-height" onClick="usePencil()"><label>Pencil</label><img src="images/pencil.png"/></button>
@@ -31,6 +30,7 @@
       <div id="transferContainer">
         <img src="images/pokeball.png" class="pokeball"/><br>
         <button id="transferBtn" class="btn" onClick="transfer()">Transfer &xrarr;</button>
+        <p id="status">Loading Model...</p>
       </div>
       <div id="output"></div>
     </div>
