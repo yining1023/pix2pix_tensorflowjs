@@ -1,15 +1,23 @@
 # pix2pix in tensorflow.js
+
 See a live demo here: [https://yining1023.github.io/pix2pix_tensorflowjs/](https://yining1023.github.io/pix2pix_tensorflowjs/)
 
-Try it yourself: Download the folder and run it locally:
+<a href="https://ibb.co/e0oUUd"><img src="https://preview.ibb.co/fXP3pd/Screen_Shot_2018_06_17_at_11_06_09_PM.png" alt="Screen_Shot_2018_06_17_at_11_06_09_PM" border="0"></a>
+
+Try it yourself: Download/clone the repository and run it locally:
 ```
+$ git clone https://github.com/yining1023/pix2pix_tensorflowjs.git
+$ cd pix2pix_tensorflowjs
 $ python -m SimpleHTTPServer
 ```
+
+
 
 Credits: This project is based on [affinelayer](https://github.com/affinelayer)'s [pix2pix-tensorflow](https://github.com/affinelayer/pix2pix-tensorflow). I want to thank [christopherhesse](https://github.com/christopherhesse), [nsthorat](https://github.com/nsthorat), and [dsmilkov](dsmilkov) for their help and suggestions from this Github [issue](https://github.com/PAIR-code/deeplearnjs/issues/239).
 
 
-## How to create edge2xxx from scratch
+
+## How to train a pix2pix(edges2xxx) model from scratch
 - 1. Prepare the data
 - 2. Train the model
 - 3. Test the model
