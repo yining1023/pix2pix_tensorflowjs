@@ -26,10 +26,9 @@ function setup() {
   for (let i = 1; i <= sampleNum; i += 1) {
     loadImage(`./images/input${i}.png`, inImg => {
       inputImgs.push(inImg);
-    });
-    let outImg = createImg(`./images/output${i}.png`, () => {
-      outImg.class('border-box').hide();
-      outputImgs.push(outImg)
+      let outImg = createImg(`./images/output${i}.png`);
+      outImg.hide().class('border-box');
+      outputImgs.push(outImg);
     });
   }
 
