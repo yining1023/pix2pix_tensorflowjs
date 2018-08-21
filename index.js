@@ -1,5 +1,5 @@
 const SIZE = 256, sampleNum = 7;
-let inputCanvas, outputContainer, statusMsg, transferBtn, sampleIndex = 0;
+let inputCanvas, outputContainer, statusMsg, transferBtn, sampleIndex = 0, modelReady = false, isTransfering = false;
 const inputImgs = [], outputImgs = [];
 
 const edges2pikachu = pix2pix('./models/edges2pikachu_AtoB.pict', modelLoaded);
@@ -44,7 +44,14 @@ function draw() {
   }
 }
 
+function mouseReleased() {
+  if (modelReady && !isTransfering) {
+    transfer()
+  }
+}
+
 function transfer() {
+  isTransfering = true;
   // Update status message
   statusMsg.html('Applying Style Transfer...!');
 
@@ -57,6 +64,7 @@ function transfer() {
     // Create an image based result
     createImg(result.src).class('border-box').parent('output');
     statusMsg.html('Done!');
+    isTransfering = false;
   });
 }
 
@@ -65,6 +73,7 @@ function modelLoaded() {
   if (!statusMsg) statusMsg = select('#status');
   statusMsg.html('Model Loaded!');
   transferBtn.show();
+  modelReady = true;
 }
 
 // Clear the canvas
