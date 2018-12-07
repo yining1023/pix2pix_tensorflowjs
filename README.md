@@ -116,6 +116,7 @@ Read more here: [https://github.com/affinelayer/pix2pix-tensorflow#getting-start
 I used the High Power Computer(HPC) at NYU to train the model. You can see more instruction here: [https://github.com/cvalenzuela/hpc](https://github.com/cvalenzuela/hpc). You can request GPU and submit a job to HPC, and use tunnels to tranfer large files between the HPC and your computer.
 
 The training takes me 4 hours and 16 mins. After train, there should be a `pikachu_train` folder with `checkpoint` in it.
+If you add `--ngf 32 --ndf 32` when training the model: python pix2pix.py --mode train --output_dir pikachu_train --max_epochs 200 --input_dir pikachu/train --which_direction BtoA --ngf 32 --ndf 32, the model will be smaller 13.6 MB, and it will take less time to train.
 
 
 ### 3. Test the model
@@ -144,7 +145,7 @@ cd server
 python tools/export-checkpoint.py --checkpoint ../export --output_file static/models/pikachu_BtoA.pict
 ```
 We should be able to get a file named `pikachu_BtoA.pict`, which is 54.4 MB.
-
+If you add `--ngf 32 --ndf 32` when training the model: python pix2pix.py --mode train --output_dir pikachu_train --max_epochs 200 --input_dir pikachu/train --which_direction BtoA --ngf 32 --ndf 32, the model will be smaller 13.6 MB, and it will take less time to train.
 
 ### 6. Create an interactive interface in the browser
 Copy the model we get from step 5 to the `models` folder.
