@@ -17,8 +17,8 @@ class Pix2pix {
   async transfer(inputElement, callback = () => {}) {
     const input = tf.fromPixels(inputElement);
     const inputData = input.dataSync();
-    const floatInput = tf.tensor3d(inputData, input.shape);
-    const normalizedInput = tf.div(floatInput, tf.scalar(255));
+    const floatInput = tf.tensor3d(inputData, input.shape, 'float32');
+    const normalizedInput = tf.div(floatInput, tf.scalar(255.0));
 
     function preprocess(inputPreproc) {
       return tf.sub(tf.mul(inputPreproc, tf.scalar(2)), tf.scalar(1));
