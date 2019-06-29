@@ -5,10 +5,10 @@ See a live demo here: [https://yining1023.github.io/pix2pix_tensorflowjs/](https
 <a href="https://ibb.co/e0oUUd"><img src="https://preview.ibb.co/fXP3pd/Screen_Shot_2018_06_17_at_11_06_09_PM.png" alt="Screen_Shot_2018_06_17_at_11_06_09_PM" border="0"></a>
 
 Try it yourself: Download/clone the repository and run it locally:
-```
-$ git clone https://github.com/yining1023/pix2pix_tensorflowjs.git
-$ cd pix2pix_tensorflowjs
-$ python -m SimpleHTTPServer
+```bash
+git clone https://github.com/yining1023/pix2pix_tensorflowjs.git
+cd pix2pix_tensorflowjs
+python3 -m http.server
 ```
 
 

@@ -15,7 +15,7 @@ class Pix2pix {
   }
 
   async transfer(inputElement, callback = () => {}) {
-    const input = tf.fromPixels(inputElement);
+    const input = tf.browser.fromPixels(inputElement);
     const inputData = input.dataSync();
     const floatInput = tf.tensor3d(inputData, input.shape, 'float32');
     const normalizedInput = tf.div(floatInput, tf.scalar(255.0));
@@ -31,7 +31,7 @@ class Pix2pix {
     function batchnorm(inputBat, scale, offset) {
       const moments = tf.moments(inputBat, [0, 1]);
       const varianceEpsilon = 1e-5;
-      return tf.batchNormalization(inputBat, moments.mean, moments.variance, varianceEpsilon, scale, offset);
+      return tf.batchNorm(inputBat, moments.mean, moments.variance, varianceEpsilon, scale, offset);
     }
 
     function conv2d(inputCon, filterCon) {
