@@ -14,11 +14,11 @@ class Pix2pix {
     this.weights = await fetchWeights(path);
   }
 
-  async transfer(inputElement, callback = () => {}) {
+  async transfer(inputElement, callback = () => { }) {
     const input = tf.browser.fromPixels(inputElement);
     const inputData = input.dataSync();
     const floatInput = tf.tensor3d(inputData, input.shape, 'float32');
-    const normalizedInput = tf.div(floatInput, tf.scalar(255.0));
+    const normalizedInput = tf.div(floatInput, tf.scalar(255));
 
     function preprocess(inputPreproc) {
       return tf.sub(tf.mul(inputPreproc, tf.scalar(2)), tf.scalar(1));
@@ -31,7 +31,7 @@ class Pix2pix {
     function batchnorm(inputBat, scale, offset) {
       const moments = tf.moments(inputBat, [0, 1]);
       const varianceEpsilon = 1e-5;
-      return tf.batchNorm(inputBat, moments.mean, moments.variance, varianceEpsilon, scale, offset);
+      return tf.batchNorm(inputBat, moments.mean, moments.variance, offset, scale, varianceEpsilon);
     }
 
     function conv2d(inputCon, filterCon) {
@@ -102,4 +102,4 @@ class Pix2pix {
   }
 }
 
-const pix2pix = (model, callback = () => {}) => new Pix2pix(model, callback);
+const pix2pix = (model, callback = () => { }) => new Pix2pix(model, callback);
